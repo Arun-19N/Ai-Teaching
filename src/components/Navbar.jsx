@@ -14,6 +14,7 @@ const navItems = [
     label: 'Workshop',
     children: [
       { label: 'Day 1 – Tools Lab', href: '/agenda/day1' },
+      { label: 'Day 1 – Challenges', href: '/agenda/day1/challenges' },
       { label: 'Day 2 – Build & Innovate', href: '/agenda/day2' },
     ],
   },

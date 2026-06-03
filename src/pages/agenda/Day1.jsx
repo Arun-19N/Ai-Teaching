@@ -1,4 +1,5 @@
-import { Clock, Target, CheckCircle, Star, Trophy, BookOpen, Zap, AlertTriangle } from 'lucide-react';
+import { Clock, Target, CheckCircle, Star, Trophy, BookOpen, Zap, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const tools = [
   { cat: 'Content & Writing', color: 'blue', items: [
@@ -176,17 +177,16 @@ export default function Day1() {
           </div>
         </div>
 
-        {/* Sample Challenges */}
-        <div className="card p-6">
-          <h3 className="font-heading font-bold text-xl text-slate-900 dark:text-slate-100 mb-4">Sample Challenges</h3>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {challenges.map((c, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-emerald transition-colors">
-                <span className="text-xl">{c.emoji}</span>
-                <p className="text-sm text-slate-700 dark:text-slate-300">{c.text}</p>
-              </div>
-            ))}
+        <div className="card p-6 flex flex-col sm:flex-row items-center justify-between gap-6 bg-gradient-to-r from-brand-emerald/10 to-brand-blue/10 border-brand-emerald/20">
+          <div>
+            <h3 className="font-heading font-bold text-xl text-slate-900 dark:text-slate-100 mb-2">Hands-On Challenges</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              Explore our curated list of Easy, Medium, and Hard challenges complete with a detailed Prompt Library.
+            </p>
           </div>
+          <Link to="/agenda/day1/challenges" className="btn-primary flex items-center gap-2 whitespace-nowrap bg-brand-emerald hover:bg-emerald-600 shadow-emerald-500/20">
+            View All Challenges <ArrowRight size={16} />
+          </Link>
         </div>
 
         {/* Evaluation Rubric */}
