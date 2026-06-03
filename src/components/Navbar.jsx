@@ -19,6 +19,7 @@ const navItems = [
       { label: 'Day 2 – Build & Innovate', href: '/agenda/day2' },
     ],
   },
+  { label: 'Content', href: '/immersion' },
   { label: 'Resources', href: '/resources' },
 ];
 

@@ -13,6 +13,7 @@ import Day2 from './pages/agenda/Day2';
 import Day1Challenges from './pages/agenda/Day1Challenges';
 import PromptLibrary from './pages/PromptLibrary';
 import AIModels from './pages/AIModels';
+import Immersion from './pages/Immersion';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/prompting" element={<Prompting />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/use-cases" element={<UseCases />} />
+          <Route path="/immersion" element={<Immersion />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/models" element={<AIModels />} />
           <Route path="/prompt-library" element={<PromptLibrary />} />
