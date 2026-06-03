@@ -93,7 +93,7 @@ export default function Home() {
               <div className="relative animate-float">
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/20 to-brand-emerald/20 rounded-3xl blur-2xl" />
                 <img
-                  src="/hero.png"
+                  src={`${import.meta.env.BASE_URL}hero.png`}
                   alt="A person interacting with an AI assistant"
                   className="relative rounded-3xl shadow-2xl max-w-full"
                   loading="eager"
