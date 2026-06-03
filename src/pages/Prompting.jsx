@@ -33,6 +33,62 @@ export default function Prompting() {
         </p>
       </div>
 
+      {/* Definition Section */}
+      <section className="card p-8 bg-blue-50 dark:bg-blue-900/10 border-l-4 border-l-brand-blue">
+        <h2 className="font-heading font-bold text-2xl text-slate-900 dark:text-slate-100 mb-4">What exactly is Prompt Engineering?</h2>
+        <div className="space-y-4 text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+          <p>
+            Think of an AI model like a brilliant, hyper-fast intern who has read every book in the world but has <strong>zero common sense</strong> and <strong>no idea what you actually want</strong>. 
+          </p>
+          <p>
+            If you give this intern a vague instruction like <em>"write a report on AI"</em>, you might get a 50-page highly technical document, or a 3-paragraph poem. It's technically correct, but completely useless to you.
+          </p>
+          <p>
+            <strong>Prompt Engineering is the skill of giving this intern precise, context-rich instructions.</strong> It is not just "typing questions into a chat box." It is the process of structuring text so that the AI understands your intent, the format you need, the tone to use, and the constraints it must follow.
+          </p>
+          <p className="font-semibold text-brand-blue dark:text-blue-400">
+            In short: In the past, we had to learn complex coding languages to instruct computers. Today, plain English is the new programming language, and Prompt Engineering is how you write the code.
+          </p>
+        </div>
+
+        {/* The Intern Example */}
+        <div className="mt-8 space-y-4 border-t border-blue-200 dark:border-blue-800/30 pt-8">
+          <h3 className="font-heading font-bold text-lg text-slate-900 dark:text-slate-100 mb-2">The "Intern" Example in Action</h3>
+          
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Bad Prompt */}
+            <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-xl p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/50 text-red-600 text-xs font-bold">✕</span>
+                <span className="font-bold text-red-900 dark:text-red-300 text-sm">The Bad Prompt</span>
+              </div>
+              <p className="text-sm font-mono text-slate-700 dark:text-slate-400 mb-4 bg-white/50 dark:bg-slate-900/50 p-3 rounded-lg border border-red-50 dark:border-red-900/20">
+                "Explain blockchain to me."
+              </p>
+              <div className="text-xs text-red-800 dark:text-red-200">
+                <span className="font-bold uppercase tracking-wider text-[10px] block mb-1">What the AI does:</span>
+                It dumps a highly technical, boring Wikipedia-style explanation full of jargon like "cryptographic hashes," "distributed ledgers," and "nodes." You are left more confused than when you started.
+              </div>
+            </div>
+
+            {/* Good Prompt */}
+            <div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 rounded-xl p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 text-xs font-bold">✓</span>
+                <span className="font-bold text-emerald-900 dark:text-emerald-300 text-sm">The Engineered Prompt</span>
+              </div>
+              <p className="text-sm font-mono text-slate-700 dark:text-slate-400 mb-4 bg-white/50 dark:bg-slate-900/50 p-3 rounded-lg border border-emerald-50 dark:border-emerald-900/20">
+                "Act as a friendly high school computer science teacher. Explain how blockchain works to a 10th-grade student who has no technical background. Use a real-world analogy, like sharing a digital notebook with classmates. Do not use any complex jargon. Keep it under 3 paragraphs."
+              </p>
+              <div className="text-xs text-emerald-800 dark:text-emerald-200">
+                <span className="font-bold uppercase tracking-wider text-[10px] block mb-1">What the AI does:</span>
+                It takes on the persona of a teacher. It avoids big words. It creates a relatable analogy (a shared notebook). It keeps it short. It gives you <strong>exactly</strong> the output you needed.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Anatomy Section */}
       <section className="space-y-6">
         <h2 className="font-heading font-bold text-2xl text-slate-900 dark:text-slate-100">The Anatomy of a Good Prompt</h2>
