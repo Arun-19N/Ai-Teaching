@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { BookOpen, Copy, Check, Star, Zap, ShieldAlert } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { BookOpen, Copy, Check, Star, Zap, ShieldAlert, Heart, Lock, Unlock } from 'lucide-react';
 
 const promptLibraryData = [
   {
@@ -94,8 +94,9 @@ const colorMap = {
   rose: { bg: 'bg-rose-50 dark:bg-rose-900/10', border: 'border-l-rose-500', text: 'text-rose-700 dark:text-rose-300' },
 };
 
-function PromptBox({ item, colorClass }) {
+function PromptBox({ item, colorClass, isUnlocked, onUnlock, canUnlock }) {
   const [copied, setCopied] = useState(false);
+  
   const handleCopy = () => {
     navigator.clipboard.writeText(item.text).then(() => {
       setCopied(true);
@@ -103,20 +104,47 @@ function PromptBox({ item, colorClass }) {
     });
   };
 
+  if (!isUnlocked) {
+    return (
+      <div className={`card p-5 border-l-4 ${colorClass.border} ${colorClass.bg}`}>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
+          <h4 className="font-heading font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <Lock size={16} className="text-slate-400" />
+            {item.title}
+          </h4>
+          <button
+            onClick={() => onUnlock(item.title)}
+            disabled={!canUnlock}
+            className="flex items-center justify-center gap-1.5 text-xs font-bold text-white transition-all px-4 py-2 rounded-lg bg-brand-blue hover:bg-blue-600 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Unlock size={14} />
+            Unlock Prompt (Costs 1 <Heart size={12} className="fill-rose-500 text-rose-500 ml-0.5" />)
+          </button>
+        </div>
+        <div className="bg-white dark:bg-slate-900 rounded-xl p-4 text-sm font-mono text-slate-400 dark:text-slate-600 border border-slate-200 dark:border-slate-700 leading-relaxed shadow-inner blur-sm select-none opacity-50">
+          "This prompt is locked. You must use one of your lives to unlock it and reveal the hidden text."
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`card p-5 border-l-4 ${colorClass.border} ${colorClass.bg}`}>
-      <div className="flex items-center justify-between mb-3">
-        <h4 className="font-heading font-bold text-slate-900 dark:text-slate-100">{item.title}</h4>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
+        <h4 className="font-heading font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <Unlock size={16} className="text-brand-emerald" />
+          {item.title}
+        </h4>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-brand-blue transition-colors px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 shadow-sm hover:shadow"
+          className="flex items-center justify-center gap-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-brand-blue transition-colors px-4 py-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm hover:shadow border border-slate-200 dark:border-slate-700"
           title="Copy prompt"
         >
           {copied ? <Check size={14} className="text-brand-emerald" /> : <Copy size={14} />}
           {copied ? 'Copied!' : 'Copy'}
         </button>
       </div>
-      <div className="bg-white dark:bg-slate-900 rounded-xl p-4 text-sm font-mono text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 leading-relaxed shadow-inner">
+      <div className="bg-white dark:bg-slate-900 rounded-xl p-4 text-sm font-mono text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 leading-relaxed shadow-inner">
         "{item.text}"
       </div>
     </div>
@@ -125,19 +153,110 @@ function PromptBox({ item, colorClass }) {
 
 export default function PromptLibrary() {
   const [activeTab, setActiveTab] = useState('easy');
+  const [unlockedPrompts, setUnlockedPrompts] = useState([]);
+  const [resetTime, setResetTime] = useState(null);
+  const [lives, setLives] = useState(3);
+  const [timeLeft, setTimeLeft] = useState('');
+
+  // Load state from localStorage on mount
+  useEffect(() => {
+    const storedUnlocks = JSON.parse(localStorage.getItem('unlockedPrompts') || '[]');
+    const storedResetTime = localStorage.getItem('promptResetTime');
+    
+    if (storedResetTime && Date.now() > parseInt(storedResetTime)) {
+      // Cooldown expired
+      localStorage.removeItem('unlockedPrompts');
+      localStorage.removeItem('promptResetTime');
+      setUnlockedPrompts([]);
+      setResetTime(null);
+      setLives(3);
+    } else {
+      setUnlockedPrompts(storedUnlocks);
+      if (storedResetTime) setResetTime(parseInt(storedResetTime));
+      setLives(3 - storedUnlocks.length);
+    }
+  }, []);
+
+  // Countdown timer for reset
+  useEffect(() => {
+    if (!resetTime || lives > 0) return;
+    
+    const interval = setInterval(() => {
+      const diff = resetTime - Date.now();
+      if (diff <= 0) {
+        // Timer reached 0 while page is open
+        localStorage.removeItem('unlockedPrompts');
+        localStorage.removeItem('promptResetTime');
+        setUnlockedPrompts([]);
+        setResetTime(null);
+        setLives(3);
+        setTimeLeft('');
+        clearInterval(interval);
+      } else {
+        const m = Math.floor(diff / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        setTimeLeft(`${m}m ${s}s`);
+      }
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [resetTime, lives]);
+
+  const handleUnlock = (promptTitle) => {
+    if (lives <= 0) return;
+    
+    const newUnlocks = [...unlockedPrompts, promptTitle];
+    setUnlockedPrompts(newUnlocks);
+    setLives(3 - newUnlocks.length);
+    localStorage.setItem('unlockedPrompts', JSON.stringify(newUnlocks));
+    
+    // Start 1 hour cooldown when they run out of lives
+    if (newUnlocks.length === 3) {
+      const newReset = Date.now() + 60 * 60 * 1000; // 1 hour from now
+      setResetTime(newReset);
+      localStorage.setItem('promptResetTime', newReset.toString());
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-      {/* Header */}
-      <div className="text-center space-y-4">
+      {/* Header & Lives Display */}
+      <div className="text-center space-y-6">
         <div className="badge-blue inline-flex"><BookOpen size={13} />Resources</div>
         <h1 className="font-heading font-bold text-4xl md:text-5xl text-slate-900 dark:text-slate-100">
           Prompt Library
         </h1>
         <p className="section-subtitle mx-auto">
-          A collection of highly optimized, copy-and-paste prompts designed for the Day 1 Hands-On Challenges. 
-          Use these as starting points for your creative work.
+          A collection of highly optimized prompts designed for the Day 1 Challenges. 
+          Choose wisely! You can only unlock 3 prompts per hour.
         </p>
+
+        {/* Lives UI */}
+        <div className="inline-flex flex-col items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Your Lives</div>
+          <div className="flex items-center gap-2 mb-2">
+            {[1, 2, 3].map((num) => (
+              <Heart 
+                key={num} 
+                size={32} 
+                className={`transition-all duration-300 ${
+                  num <= lives 
+                    ? 'fill-rose-500 text-rose-500 drop-shadow-md' 
+                    : 'fill-slate-200 text-slate-300 dark:fill-slate-800 dark:text-slate-700'
+                }`} 
+              />
+            ))}
+          </div>
+          {lives === 0 ? (
+            <div className="text-sm font-semibold text-rose-500 bg-rose-50 dark:bg-rose-900/20 px-3 py-1 rounded-lg">
+              Out of lives! Refreshes in: {timeLeft}
+            </div>
+          ) : (
+            <div className="text-sm font-medium text-slate-600 dark:text-slate-400">
+              {lives} {lives === 1 ? 'life' : 'lives'} remaining
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Tabs */}
@@ -163,13 +282,19 @@ export default function PromptLibrary() {
 
       {/* Prompt List */}
       <div className="space-y-6">
-        {promptLibraryData.find(l => l.id === activeTab).prompts.map((p, index) => (
-          <PromptBox 
-            key={index} 
-            item={p} 
-            colorClass={colorMap[promptLibraryData.find(l => l.id === activeTab).color]} 
-          />
-        ))}
+        {promptLibraryData.find(l => l.id === activeTab).prompts.map((p, index) => {
+          const isUnlocked = unlockedPrompts.includes(p.title);
+          return (
+            <PromptBox 
+              key={index} 
+              item={p} 
+              colorClass={colorMap[promptLibraryData.find(l => l.id === activeTab).color]} 
+              isUnlocked={isUnlocked}
+              onUnlock={handleUnlock}
+              canUnlock={lives > 0}
+            />
+          );
+        })}
       </div>
     </div>
   );
