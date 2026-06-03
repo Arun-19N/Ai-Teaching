@@ -11,6 +11,7 @@ import Resources from './pages/Resources';
 import Day1 from './pages/agenda/Day1';
 import Day2 from './pages/agenda/Day2';
 import Day1Challenges from './pages/agenda/Day1Challenges';
+import PromptLibrary from './pages/PromptLibrary';
 import AIModels from './pages/AIModels';
 
 function ScrollToTop() {
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/use-cases" element={<UseCases />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/models" element={<AIModels />} />
+          <Route path="/prompt-library" element={<PromptLibrary />} />
           <Route path="/agenda/day1" element={<Day1 />} />
           <Route path="/agenda/day1/challenges" element={<Day1Challenges />} />
           <Route path="/agenda/day2" element={<Day2 />} />

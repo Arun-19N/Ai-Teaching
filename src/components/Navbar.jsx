@@ -9,6 +9,7 @@ const navItems = [
   { label: 'Prompting', href: '/prompting' },
   { label: 'AI Tools', href: '/tools' },
   { label: 'AI Models', href: '/models' },
+  { label: 'Prompt Library', href: '/prompt-library' },
   { label: 'Use Cases', href: '/use-cases' },
   {
     label: 'Workshop',

@@ -160,36 +160,7 @@ const colorMap = {
   rose: { bg: 'bg-rose-50 dark:bg-rose-900/10', border: 'border-l-rose-500', text: 'text-rose-700 dark:text-rose-300', icon: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600', dot: 'bg-rose-500' },
 };
 
-function PromptBox({ prompt, colorClass }) {
-  const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
-    navigator.clipboard.writeText(prompt).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
 
-  return (
-    <div className="mt-4 pt-4 border-t border-slate-200/60 dark:border-slate-700/60">
-      <div className="flex items-center justify-between mb-2">
-        <h5 className={`text-xs font-bold uppercase tracking-wider ${colorClass.text} flex items-center gap-1.5`}>
-          <span className="text-lg">✨</span> Example Prompt
-        </h5>
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-brand-blue transition-colors px-2 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-          title="Copy prompt"
-        >
-          {copied ? <Check size={12} className="text-brand-emerald" /> : <Copy size={12} />}
-          {copied ? 'Copied!' : 'Copy'}
-        </button>
-      </div>
-      <div className="bg-white dark:bg-slate-900 rounded-xl p-3 text-sm font-mono text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 leading-relaxed">
-        "{prompt}"
-      </div>
-    </div>
-  );
-}
 
 function ChallengeCard({ c, colorConfig }) {
   const [expanded, setExpanded] = useState(false);
@@ -256,9 +227,6 @@ function ChallengeCard({ c, colorConfig }) {
               )}
             </div>
           )}
-
-          {/* Prompt Library Box */}
-          <PromptBox prompt={c.prompt} colorClass={colorConfig} />
         </div>
       )}
     </div>
@@ -278,7 +246,6 @@ export default function Day1Challenges() {
         </h1>
         <p className="section-subtitle mx-auto">
           "Learn AI. Build Future. Create Impact." Select a difficulty level and start building your AI portfolio. 
-          Use the included <strong>Prompt Library</strong> to jumpstart your creativity.
         </p>
       </div>
 
