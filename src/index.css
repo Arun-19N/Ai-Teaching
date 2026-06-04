@@ -86,6 +86,43 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ─── Neural Network Animation ─── */
+@keyframes pulse-right {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes nn-pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -50px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(20px, 40px) scale(1.02); }
+}
+
+.animate-blob { animation: blob 8s ease-in-out infinite; }
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
+
+.nn-connection {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3B82F6, #8B5CF6, transparent);
+  background-size: 200% 100%;
+  animation: pulse-right 2s ease-in-out infinite;
+}
+
+.nn-connection-2 {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #8B5CF6, #10B981, transparent);
+  background-size: 200% 100%;
+  animation: pulse-right 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-surface); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }

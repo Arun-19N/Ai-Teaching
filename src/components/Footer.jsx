@@ -98,7 +98,7 @@ export default function Footer() {
 
         <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-slate-600">
-            © {new Date().getFullYear()} AI Practical Mastery. Built for learners, by learners.
+            © {new Date().getFullYear()} AI Practical Mastery. Copyright reserved by Arun. Created by Rsmart COE.
           </p>
           <div className="flex items-center gap-1 text-xs text-slate-600">
             <span>Made with</span>
