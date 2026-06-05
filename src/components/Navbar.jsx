@@ -16,7 +16,7 @@ const navItems = [
     children: [
       { label: 'Day 1 – Tools Lab', href: '/agenda/day1' },
       { label: 'Day 1 – Challenges', href: '/agenda/day1/challenges' },
-      { label: 'Day 2 – Build & Innovate', href: '/agenda/day2' },
+      { label: 'Day 2 – VibeCoding & Challenges', href: '/agenda/day2' },
     ],
   },
   { label: 'Content', href: '/immersion' },
@@ -59,9 +59,8 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'glass shadow-md' : 'bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'glass shadow-md' : 'bg-transparent'
+          }`}
       >
         <nav className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -173,10 +172,9 @@ export default function Navbar() {
                   key={item.href}
                   to={item.href}
                   className={({ isActive }) =>
-                    `block px-3 py-2.5 rounded-lg font-medium transition-colors text-sm ${
-                      isActive
-                        ? 'text-brand-blue bg-blue-50 dark:bg-blue-900/20'
-                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    `block px-3 py-2.5 rounded-lg font-medium transition-colors text-sm ${isActive
+                      ? 'text-brand-blue bg-blue-50 dark:bg-blue-900/20'
+                      : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                     }`
                   }
                   onClick={() => setIsOpen(false)}
