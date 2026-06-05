@@ -11,9 +11,11 @@ import Resources from './pages/Resources';
 import Day1 from './pages/agenda/Day1';
 import Day2 from './pages/agenda/Day2';
 import Day1Challenges from './pages/agenda/Day1Challenges';
+import Day2Challenges from './pages/agenda/Day2Challenges';
 import PromptLibrary from './pages/PromptLibrary';
 import AIModels from './pages/AIModels';
 import Immersion from './pages/Immersion';
+import VibeCoding from './pages/VibeCoding';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -40,6 +42,8 @@ export default function App() {
           <Route path="/agenda/day1" element={<Day1 />} />
           <Route path="/agenda/day1/challenges" element={<Day1Challenges />} />
           <Route path="/agenda/day2" element={<Day2 />} />
+          <Route path="/agenda/day2/challenges" element={<Day2Challenges />} />
+          <Route path="/vibe-coding" element={<VibeCoding />} />
         </Routes>
       </main>
       <Footer />
